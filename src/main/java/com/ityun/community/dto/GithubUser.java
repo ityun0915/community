@@ -1,4 +1,4 @@
-package com.ityun.community.community.dto;
+package com.ityun.community.dto;
 
 import org.springframework.stereotype.Component;
 

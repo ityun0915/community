@@ -1,8 +1,8 @@
-package com.ityun.community.community.provider;
+package com.ityun.community.provider;
 
 import com.alibaba.fastjson.JSON;
-import com.ityun.community.community.dto.AccessTokenDTO;
-import com.ityun.community.community.dto.GithubUser;
+import com.ityun.community.dto.AccessTokenDTO;
+import com.ityun.community.dto.GithubUser;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 
