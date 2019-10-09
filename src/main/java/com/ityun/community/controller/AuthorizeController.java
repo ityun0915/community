@@ -5,6 +5,7 @@ import com.ityun.community.dto.GithubUser;
 import com.ityun.community.mapper.UserMapper;
 import com.ityun.community.model.User;
 import com.ityun.community.provider.GithubProvider;
+import com.ityun.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -30,12 +31,11 @@ public class AuthorizeController {
     private String Redirect_uri;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
-    @GetMapping(value = "/callback")
+    @GetMapping(value = "/callback")        //github登录回滚
     public String callback(@RequestParam(name = "code")String code,
                            @RequestParam(name = "state")String state,
-                           HttpServletRequest request,
                            HttpServletResponse response){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(Client_id);
@@ -57,15 +57,12 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmt_create(System.currentTimeMillis());
             user.setGmt_modified(user.getGmt_create());
-System.out.println(user);
 
+            //将用户信息存入数据库
+            userService.insert(user);
             //将token值传入cookie
             response.addCookie(new Cookie("token",token));
 
-            //将用户信息存入数据库
-            userMapper.insert(user);
-            // 将user存入session
-            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         }else {
             //user不存在,重定向到错误页面
