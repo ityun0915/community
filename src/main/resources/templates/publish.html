@@ -44,7 +44,6 @@
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/publish"><font color="white">提问</font></a></li>
 
                 <!--判断session中的user是否为空-->
                 <li class="dropdown" th:if="${session.user != null}">
@@ -66,23 +65,56 @@
     <div class="container-fluid main" style="background-image: url('../image/timg.jpg')">
         <div class="row" style="margin: 35px 190px 0 200px; background-color:white ">
             <div class="col-lg-9 col-md-12 col-sm-12  col-xs-12">
-                <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
+                <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
                 <hr>
+                <div class="alert alert-warning" role="alert">
 
+                    如果你希望他人花 1 分钟来解答你的问题，还请耐心花 10 分钟完善你的提问。<br>
 
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object" style="width: 50px;height: 50px;" src="https://avatars3.githubusercontent.com/u/55529173?v=4">
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading"><b>怎么快速学会springboot</b></h4>
-                        <span> 3 人关注 • 2 个回复 • 30 次浏览 • 23 分钟前</span>
-                    </div>
+                    补充完整的错误描述，如：<br>
+                    软件版本；<br>
+                    运行环境；<br>
+                    场景/上下文；<br>
+                    有用的信息（请使用代码块粘贴，以方便他人查看）；<br>
+                    相关查询请求；<br>
+                    错误日志；<br>
+                    代码块<br>
                 </div>
+
+                <form action="/doPublish" method="post">
+                    <div class="from-group">
+                        <label >问题标题 (简单扼要) :</label>
+                        <input type="text" class="form-control" name="title" placeholder="问题标题....." th:value="${title}">
+                    </div>
+                    <div class="form-group">
+                        <label >问题补充 (必填,请参考右侧提示) :</label>
+                        <textarea class="form-control" name="description" rows="15" th:text="${description}"></textarea>
+                    </div>
+                    <div class="from-group">
+                        <label >添加标签 :</label>
+                        <input type="text" class="form-control" name="tag" placeholder="输入标签,以','号分隔" th:value="${tag}">
+
+                    </div>
+
+                    <span class="alert alert-danger" th:text="${error}" th:if=" ${error != null}"></span>
+
+                    <button type="submit" class="btn btn-success">发布</button>
+
+                </form>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                <H4><b>问题发起指南</b></H4>
+                <H5>• 问题标题: 请用<b>精简</b>的语言描述您发布的问题，不超过25字<br></H5>
+                <H5>• 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料：<br></H5>
+                <H5>&nbsp;&nbsp;&nbsp;1. 服务器运行环境信息；<br></H5>
+                <H5>&nbsp;&nbsp;&nbsp;2. 软件版本；<br></H5>
+                <H5>&nbsp;&nbsp;&nbsp; 3. 问题发生的上下文信息；<br></H5>
+                <H5>&nbsp;&nbsp;&nbsp;4. 可以完整复现问题的代码（如可直接运行于 Kibana Console 的复现流程）；<br></H5>
+                <H5> &nbsp;&nbsp;&nbsp;5. 补充完整的异常和错误信息；<br></H5>
+                <H5> &nbsp;&nbsp;&nbsp;6. 注意阅读格式友好，代码和异常信息请用代码标签格式化张贴；<br></H5>
+                <H5> • 选择标签: 选择一个或者多个合适的标签，不超过10个字<br></H5>
+                <H5> • 关于积分： 发起一个问题会消耗您 20 个积分, 每多一个回复你将获得 5 个积分的奖励 ,为了您的利益, 在发起问题的时候希望能够更好的描述您的问题以及多使用站内搜索功能.<br></H5>
+               </H5>
             </div>
         </div>
     </div>
