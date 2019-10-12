@@ -1,25 +1,22 @@
 package com.ityun.community.mapper;
 
-import com.ityun.community.model.Question;
 import com.ityun.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
-    @Insert("INSERT INTO user(account_id,name,token,gmt_create,gmt_modified,bio,email,company,image_url) VALUES(#{account_id},#{name},#{token},#{gmt_create},#{gmt_modified},#{bio},#{email},#{company},#{image_url});")
+    @Insert("insert into user(account_id,name,token,gmt_create,gmt_modified,bio,email,company,image_url) values(#{account_id},#{name},#{token},#{gmt_create},#{gmt_modified},#{bio},#{email},#{company},#{image_url})")
     void insert(User user);
 
     @Select("select * from user where token=#{token}")
-    User findByToken(@Param("token") String token);
+    User findUserByToken(@Param("token") String token);
 
-    @Select("select * from question")
-    List<Question> findQuest();
+    @Select("select * from user where account_id=#{account_id}")
+    User findUserByAccount_id(@Param("account_id") String account_id);
 
     @Select("select * from user where id=#{creator}")
-    User findUser(@Param("creator")int creator);
+    User findUserByCreator(@Param("creator") Integer creator);
+
+    @Update("update user set token=#{token} where account_id=#{account_id}")
+    void updateToken(User user);
 }

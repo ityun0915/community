@@ -3,8 +3,10 @@ package com.ityun.community.dto;
 import com.ityun.community.model.User;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class QuestionDTO {
+public class QuestionDTO implements Serializable {
 
     private Integer id;
     private String title;

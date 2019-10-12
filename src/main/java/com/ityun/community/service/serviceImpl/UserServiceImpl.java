@@ -1,16 +1,11 @@
 package com.ityun.community.service.serviceImpl;
 
-import com.ityun.community.dto.QuestionDTO;
 import com.ityun.community.mapper.UserMapper;
-import com.ityun.community.model.Question;
 import com.ityun.community.model.User;
 import com.ityun.community.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,34 +13,25 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-        public void insert(User user){  //添加用户信息
+   public void insert(User user){  //添加用户信息
+        //判断该用户是否存在
+        System.out.println("判断数据库是否存在该User信息...");
+        User hasUser = userMapper.findUserByAccount_id(user.getAccount_id());
+
+        if (hasUser != null){
+            //存在该用户,更新信息
+            System.out.println("存在该User:"+hasUser.getName()+"正在更新User的token...");
+            userMapper.updateToken(user);
+        }else {
+            //不存在该用户,插入
             userMapper.insert(user);
+        }
     }
 
     @Override
     public User findByToken(String token) {
-       return userMapper.findByToken(token);
+       return userMapper.findUserByToken(token);
     }
 
-    @Override
-    public List<QuestionDTO> findQuestionDTOs() {
-
-        List<QuestionDTO> list = new ArrayList<>();
-        List<Question> quest = userMapper.findQuest();
-        //遍历List<Question>
-        for (Question question:quest ){
-
-            //每一个question都要有一个questionDTO对应
-            QuestionDTO questionDTO = new QuestionDTO();
-
-             User user = userMapper.findUser(question.getCreator());
-            questionDTO.setUser(user);
-            //将question的属性全部设置进questionDTO
-            BeanUtils.copyProperties(question,questionDTO);
-            //将所有questionDto对象添加进list
-            list.add(questionDTO);
-        }
-        return list;
-    }
 
 }

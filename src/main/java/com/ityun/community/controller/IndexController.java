@@ -1,10 +1,9 @@
 package com.ityun.community.controller;
 
 import com.ityun.community.dto.QuestionDTO;
-import com.ityun.community.model.Question;
 import com.ityun.community.model.User;
+import com.ityun.community.service.QuestionService;
 import com.ityun.community.service.UserService;
-import com.ityun.community.utils.CookUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -19,22 +19,32 @@ public class IndexController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    QuestionService questionService;
 
     @GetMapping(value = "/")
     public String index(HttpServletRequest request, Model model){
         Cookie[] cookies = request.getCookies();
-        Cookie cookie = CookUtils.getCookieByName("token", cookies);
-        String token = cookie.getValue();
-        User user = userService.findByToken(token);
+        if(cookies!=null){
+            for (Cookie c : cookies) {
+                //通过名称获取
+                if("token".equals(c.getName())){
+                    //返回
+                    String token = c.getValue();
+                    User user = userService.findByToken(token);
+                    if (user != null){
+                        // 将user存入session
+                        HttpSession session = request.getSession();
+                        session.setMaxInactiveInterval(60*60);
+                    session.setAttribute("user",user);
 
-        if (user != null){
-            // 将user存入session
-            request.getSession().setAttribute("user",user);
-            System.out.println(user);
+        System.out.println("正在登录用户信息:"+user);
+                    }
+                }
+            }
         }
-
-        List<QuestionDTO> list = userService.findQuestionDTOs();
-System.out.println("list..."+list);
+        //查询带有的问题信息
+        List<QuestionDTO> list = questionService.findQuestionDTOs();
         model.addAttribute("list",list);
 
         return "index";

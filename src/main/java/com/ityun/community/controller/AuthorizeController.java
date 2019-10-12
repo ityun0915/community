@@ -21,6 +21,7 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
 
+
     @Value("${Client_id}")
     private String Client_id;
     @Value("${Client_secret}")
@@ -32,8 +33,8 @@ public class AuthorizeController {
     private UserService userService;
 
     @GetMapping(value = "/callback")        //github登录回滚
-    public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam(name = "state") String state,
+    public String callback(@RequestParam(value = "code") String code,
+                           @RequestParam(value = "state") String state,
                            HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(Client_id);
@@ -60,11 +61,13 @@ public class AuthorizeController {
             user.setEmail(githubUser.getEmail());
             user.setCompany(githubUser.getCompany());
             user.setImage_url(githubUser.getAvatar_url());
+System.out.println("loginUser:"+user.getName()+"的所有信息:"+user);
 
             //将用户信息存入数据库
             userService.insert(user);
             //将token值传入cookie
-            response.addCookie(new Cookie("token", token));
+            Cookie user_token = new Cookie("token", token);
+            response.addCookie(user_token);
 
             return "redirect:/";
         } else {

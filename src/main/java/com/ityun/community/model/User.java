@@ -2,8 +2,10 @@ package com.ityun.community.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 @Data
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 7448353437209946860L;
     private Integer id;
     private String name;
     private String account_id;

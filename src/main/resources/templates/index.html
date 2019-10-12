@@ -6,17 +6,19 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
-
 </head>
 <body>
-<nav class="navbar navbar-from">
+<nav class="navbar navbar-from" >
+
+<!--导航栏-->
     <div class="container-fluid" style="background-color: #499ef3" >
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only"><font color="white">ityun社区</font></span>
+                <span class="sr-only">ityun社区</span>
             </button>
-            <a class="navbar-brand" href="/"><font color="white">ityun社区</font></a>
+            <a class="navbar-brand" href="/" style="font-family:'Comic Sans MS' ;color: red ; size:B5"><b>Like-Yun</b></a>
+
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -48,8 +50,12 @@
 
                 <!--判断session中的user是否为空-->
                 <li class="dropdown" th:if="${session.user != null}">
-                    <!--user存在-->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><font color="white">我的信息</font><span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+<!--                        <font color="white">我的信息</font>-->
+                        <img class="media-object" style=" display:inline-block ;width: 25px;height: 25px;" th:src="${(session.user.getImage_url() != null && !#strings.isEmpty(session.user.getImage_url())) ? session.user.getImage_url() : 'https://avatars1.githubusercontent.com/u/46514747?v=4'}">
+                        <span class="caret"></span>
+                    </a>
+
                     <ul class="dropdown-menu">
                         <li><a href="#">信息中心</a></li>
                         <li><a href="#">我的资料</a></li>
@@ -58,34 +64,45 @@
                 </li>
                 <li class="dropdown" th:if="not ${session.user != null}">
                     <!--use为空, 绑定github的uri地址-->
-                    <a href="https://github.com/login/oauth/authorize?client_id=8002259c435d04d1fb41&redirect_uri=http://localhost:8080/callback&scope=user&state=1"><font color="white">登录</font></a></li>
+                    <a href="https://github.com/login/oauth/authorize?client_id=8002259c435d04d1fb41&redirect_uri=http://192.168.5.30:8080/callback&scope=user&state=1"><font color="white">登录</font></a></li>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="container-fluid main" style="background-image: url('../image/timg.jpg')">
+
+
+    <!--主体栏-->
+    <div class="container-fluid main" style="background-image: url('../image/bg.jpg')">
         <div class="row" style="margin: 35px 190px 0 200px; background-color:white ">
             <div class="col-lg-9 col-md-12 col-sm-12  col-xs-12">
                 <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
                 <hr>
 
 
-                <div class="media">
+                <div class="media" th:each="question:${list}">
+
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object" style="width: 50px;height: 50px;" src="https://avatars3.githubusercontent.com/u/55529173?v=4">
+                            <img class="media-object" style="width: 50px;height: 50px;" th:src="${question.getUser().getImage_url() != null && !#strings.isEmpty(question.getUser().getImage_url()) ? question.getUser().getImage_url() : 'https://avatars1.githubusercontent.com/u/46514747?v=4'}">
+<!--                            <img class="media-object" style="width: 50px;height: 50px;" src="https://avatars3.githubusercontent.com/u/55529173?v=4">-->
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading"><b>怎么快速学会springboot</b></h4>
-                        <span> 3 人关注 • 2 个回复 • 30 次浏览 • 23 分钟前</span>
+                        <h4 class="media-heading" th:text="${question.getTitle()}"></h4>
+                        <span> <span th:text="${question.getLike_count()}"></span>个关注 •
+                            <span th:text="${question.getComment_count()}"></span> 个回复 •
+                            <span th:text="${question.getView_count()}"></span> 次浏览 •
+                            <span th:text="${#calendars.format(question.getGmt_create(),'MM/dd  HH:ss')}"></span>
+                        </span>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                <h3>热门话题</h3>
             </div>
         </div>
     </div>
 </nav>
+
 </body>
 </html>

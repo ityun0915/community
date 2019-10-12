@@ -42,6 +42,7 @@ public class PublishController {
 
         question.setCreator(user.getId());
         questionService.create(question);
-        return "index";
+
+        return "redirect:/";
     }
 }
