@@ -49,6 +49,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 System.out.println("redis存在questionDTOs...");
 System.out.println("questionDTOs:" + questionDTOs);
+
+
             return questionDTOs;
 
         }else {
