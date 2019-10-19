@@ -1,15 +1,16 @@
 #第三方登录信息
 Client_id: 8002259c435d04d1fb41
 Client_secret: 7092f2d3e20908e59bdc9dae0c7c33e8f1b5a0b9
-Redirect_uri: http://192.168.5.30:8080/callback
+Redirect_uri: http://192.168.5.18:8080/callback
 #数据库连接
-#url: jdbc:mysql://192.168.5.52/community?useUnicode=true&characterEncoding=utf-8&useSSL=true
-#useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://192.168.5.30/community?useUnicode=true&characterEncoding=utf-8&useSSL=true
+    url: jdbc:mysql://192.168.5.18/community?useUnicode=true&characterEncoding=utf-8&useSSL=true
     type: org.springframework.jdbc.datasource.DriverManagerDataSource
-
+#netty
+netty:
+  port: 7001
+  url: 127.0.0.1

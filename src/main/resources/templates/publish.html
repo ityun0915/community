@@ -5,79 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+    <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 
 </head>
 <body>
-<nav class="navbar navbar-from">
-
-    <!--导航栏-->
-    <div class="container-fluid" style="background-color: #499ef3" >
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">ityun社区</span>
-            </button>
-            <a class="navbar-brand" href="/" style="font-family:'Comic Sans MS' ;color: red ; size:B5"><b>Like-Yun</b></a>
-
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#"><font color="white">发现</font><span class="sr-only">(current)</span></a></li>
-                <li><a href="#"><font color="white">分享</font></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><font color="white">文章</font> <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索问题">
-                </div>
-                <button type="submit" class="btn btn-default">搜索</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/publish"><font color="white">提问</font></a></li>
-
-                <!--判断session中的user是否为空-->
-                <li class="dropdown" th:if="${session.user != null}">
-                    <!--user存在-->
-                    <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                         <font color="white" th:value="${session.user.getName()}"></font>
-                         <span class="caret"></span>
- &lt;!&ndash;                     <img class="media-object" style="width: 30px;height: 30px;" th:src="${(session.user.getImage_url() != null && !#strings.isEmpty(session.user.getImage_url())) ? session.user.getImage_url() : 'https://avatars1.githubusercontent.com/u/46514747?v=4'}">&ndash;&gt;
-
-                     </a>-->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <!--                        <font color="white">我的信息</font>-->
-                        <img class="media-object" style=" display:inline-block ;width: 25px;height: 25px;" th:src="${(session.user.getImage_url() != null && !#strings.isEmpty(session.user.getImage_url())) ? session.user.getImage_url() : 'https://avatars1.githubusercontent.com/u/46514747?v=4'}">
-                        <span class="caret"></span>
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        <li><a href="#">信息中心</a></li>
-                        <li><a href="#">我的资料</a></li>
-                        <li><a href="#">退出登录</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown" th:if="not ${session.user != null}">
-                    <!--use为空, 绑定github的uri地址-->
-                    <a href="https://github.com/login/oauth/authorize?client_id=8002259c435d04d1fb41&redirect_uri=http://192.168.5.30:8080/callback&scope=user&state=1"><font color="white">登录</font></a></li>
-                </li>
-            </ul>
-        </div>
-    </div>
-
+<!--导航栏-->
+<div th:insert="~{header :: copy}"></div>
 
 
 
@@ -139,6 +73,5 @@
             </div>
         </div>
     </div>
-</nav>
 </body>
 </html>

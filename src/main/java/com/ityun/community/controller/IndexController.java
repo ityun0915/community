@@ -1,6 +1,7 @@
 package com.ityun.community.controller;
 
 import com.ityun.community.dto.QuestionDTO;
+import com.ityun.community.listener.NettyListener;
 import com.ityun.community.model.User;
 import com.ityun.community.service.QuestionService;
 import com.ityun.community.service.UserService;
@@ -28,7 +29,7 @@ public class IndexController {
         if(cookies!=null){
             for (Cookie c : cookies) {
                 //通过名称获取
-                if("token".equals(c.getName())){
+                if("token".equalsIgnoreCase(c.getName())){
                     //返回
                     String token = c.getValue();
                     User user = userService.findByToken(token);
@@ -39,6 +40,7 @@ public class IndexController {
                     session.setAttribute("user",user);
 
         System.out.println("正在登录用户信息:"+user);
+        System.out.println(user.getName()+"上线,在线人数:"+ NettyListener.online);
                     }
                 }
             }

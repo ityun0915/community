@@ -2,6 +2,7 @@ package com.ityun.community.controller;
 
 import com.ityun.community.dto.AccessTokenDTO;
 import com.ityun.community.dto.GithubUser;
+import com.ityun.community.listener.NettyListener;
 import com.ityun.community.model.User;
 import com.ityun.community.provider.GithubProvider;
 import com.ityun.community.service.UserService;
@@ -68,6 +69,8 @@ System.out.println("loginUser:"+user.getName()+"的所有信息:"+user);
             //将token值传入cookie
             Cookie user_token = new Cookie("token", token);
             response.addCookie(user_token);
+
+
 
             return "redirect:/";
         } else {
